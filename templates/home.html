@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% from 'macros.html' import stocktable %}{% block actions %}<a class="button" href="{{ url_for('movement') }}">Record movement</a>{% endblock %}{% block body %}
+<div class="metrics">{% for label,n in [('Products',rows|length),('Units on hand',units),('Stock at catalogue cost','₹ {:,.2f}'.format(value)),('At or below threshold',low|length)] %}<section><small>{{ label }}</small><strong>{{ n }}</strong></section>{% endfor %}</div>
+<h2>Reorder watchlist</h2>{% if low %}{{ stocktable(low) }}{% else %}<p class="card">No products need restocking.</p>{% endif %}{% endblock %}

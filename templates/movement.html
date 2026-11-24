@@ -1,0 +1,24 @@
+{% extends 'base.html' %}{% from 'macros.html' import csrf with context %}{% block body %}<form method="post" class="card fields" id="movement">{{ csrf() }}<input type="hidden" name="ticket" value="{{ ticket }}">
+<label>Movement type<select name="kind">{% for k in ['Sale','Purchase','Customer return','Supplier return']+(['Count'] if g.user.role=='Admin' else []) %}<option>{{ k }}</option>{% endfor %}</select></label>
+<label>Product<select name="sku" required><option value="">Choose product</option>{% for p in rows %}<option value="{{ p.sku }}">{{ p.sku }} · {{ p.name }} ({{ p.qty }} available)</option>{% endfor %}</select></label>
+<label><span id="qtyLabel">Units</span><input name="units" type="number" min="0" max="1000000" required></label>
+<label data-show="trade">Trading account<select name="partner"><option value="">Choose account</option>{% for p in partners %}<option value="{{ p.id }}" data-role="{{ p.role }}">{{ p.name }} · {{ p.role }}</option>{% endfor %}</select></label>
+<label data-show="return">Original receipt number<input name="original" type="number" min="1"></label>
+<label data-show="trade">Unit price (₹)<input type="number" min="0" step=".01" name="price" placeholder="Use catalogue price"></label><label data-show="trade">Discount (%)<input name="discount" type="number" min="0" max="100" step=".01" value="0"></label><label data-show="trade">Tax (%)<input name="tax" type="number" min="0" max="100" step=".01" value="0"></label>
+<label class="wide">Note / reason for correction<input name="note" maxlength="240"></label><div class="wide"><button>Post movement</button></div></form>
+<script>
+const f=document.querySelector('#movement');
+function refresh(){
+ const k=f.elements.kind.value, trade=['Sale','Purchase'].includes(k);
+ for(const label of f.querySelectorAll('[data-show]')){
+   label.hidden=label.dataset.show==='trade' ? !trade : !k.endsWith('return');
+   label.querySelector('input,select').disabled=label.hidden;
+ }
+ f.elements.partner.value='';
+ for(const option of f.elements.partner.options) if(option.dataset.role) option.disabled=option.dataset.role!==(k==='Sale'?'Buyer':'Supplier');
+ document.querySelector('#qtyLabel').textContent=k==='Count'?'New physical count (absolute)':'Units';
+ f.elements.units.min=k==='Count'?0:1;
+ f.elements.note.required=k==='Count';
+}
+f.elements.kind.addEventListener('change',refresh);refresh();
+</script>{% endblock %}

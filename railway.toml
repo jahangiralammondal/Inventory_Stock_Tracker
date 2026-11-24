@@ -1,0 +1,4 @@
+[deploy]
+startCommand = "sh -c 'python -m flask --app app setup --demo && exec gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 2 app:app'"
+healthcheckPath = "/login"
+healthcheckTimeout = 300

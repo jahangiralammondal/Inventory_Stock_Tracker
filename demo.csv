@@ -1,0 +1,9 @@
+sku,name,category,aisle,bin_no,qty,minimum,cost,price
+SSD-512,512 GB NVMe SSD,Storage,1,1,12,5,2200,2899
+RAM-16,16 GB DDR4 memory,Memory,1,2,4,5,2150,2750
+USB-64,64 GB USB drive,Storage,1,1,18,6,310,499
+KEY-01,Mechanical keyboard,Peripherals,2,1,7,3,1450,1999
+MOU-02,Wireless mouse,Peripherals,2,2,15,5,390,649
+HUB-07,7-port USB hub,Connectivity,3,1,0,3,750,1099
+HDMI-2,2 metre HDMI cable,Connectivity,3,2,24,8,165,299
+MON-24,24 inch IPS monitor,Displays,4,1,3,2,7100,8899

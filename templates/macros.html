@@ -1,0 +1,3 @@
+{% macro csrf() %}<input type="hidden" name="csrf" value="{{ session.csrf }}">{% endmacro %}
+{% macro stocktable(rows) %}<div class="scroll"><table><thead><tr><th>Product / SKU</th><th>Category</th><th>Aisle / bin</th><th>On hand</th><th>Threshold</th><th>Status</th></tr></thead><tbody>
+{% for p in rows %}<tr><td><a href="{{ url_for('product',sku=p.sku) }}">{{ p.name }}</a><small>{{ p.sku }}</small></td><td>{{ p.category }}</td><td>{{ '%02d / %02d'|format(p.aisle,p.bin_no) }}</td><td><b>{{ p.qty }}</b></td><td>{{ p.minimum }}</td><td><span class="pill {{ 'alert' if p.qty<=p.minimum }}">{{ status(p.qty,p.minimum) }}</span></td></tr>{% else %}<tr><td colspan="6">No matching products.</td></tr>{% endfor %}</tbody></table></div>{% endmacro %}
